@@ -29,8 +29,6 @@ const Home: NextPage = () => {
 
   const subdomain = getSubdomain();
 
-  console.log(subdomain);
-
   const setError = (title: string, message: string) => {
     setErrorMessage(message);
     setErrorTitle(title);
@@ -39,8 +37,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const listener = (e: ClipboardEvent) => {
-      if (subdomain === "") {
-        setError("Error", "SUBDOMAIN environment variable is not set.");
+      if (!subdomain || subdomain === "") {
+        setError("Error", "Subdomain is not set.");
         return;
       }
 
