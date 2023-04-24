@@ -14,7 +14,7 @@ const server = z.object({
  */
 const client = z.object(
   /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ ({
-    NEXT_PUBLIC_SUBDOMAIN: z.string().min(1),
+    NEXT_PUBLIC_SUBDOMAIN: z.string().optional(),
   })
 );
 
