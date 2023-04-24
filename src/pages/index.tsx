@@ -85,7 +85,7 @@ const Home: NextPage = () => {
     return () => {
       document.removeEventListener("paste", listener);
     };
-  }, []);
+  }, [subdomain]);
 
   return (
     <>
