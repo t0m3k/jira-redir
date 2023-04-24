@@ -9,7 +9,9 @@ const Home: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showError, setShowError] = useState<boolean>(false);
 
-  const setError = (message: string, title: string) => {
+  const subdomain = process.env.NEXT_PUBLIC_SUBDOMAIN || "";
+
+  const setError = (title: string, message: string) => {
     setErrorMessage(message);
     setErrorTitle(title);
     setShowError(true);
@@ -17,12 +19,17 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const listener = (e: ClipboardEvent) => {
+      if (subdomain === "") {
+        setError("Error", "SUBDOMAIN environment variable is not set.");
+        return;
+      }
+
       const clip = e.clipboardData?.getData("text");
 
       if (clip && clip !== "") {
         try {
           const url = new URL(clip);
-          if (url.hostname === "ssalpha.atlassian.net") {
+          if (url.hostname === `${subdomain}.atlassian.net`) {
             const searchParams = url.search.split("&");
             const issue =
               searchParams
@@ -30,7 +37,7 @@ const Home: NextPage = () => {
                 ?.split("=")[1] || "";
 
             if (issue !== "") {
-              window.location.href = `https://ssalpha.atlassian.net/browse/${issue}`;
+              window.location.href = `https://${subdomain}.atlassian.net/browse/${issue}`;
             } else {
               setError("Error", "Couldn't find issue key in the URL.");
               return;
@@ -49,7 +56,7 @@ const Home: NextPage = () => {
             setError("Error", "It doesn't look like a Jira issue key.");
             return;
           }
-          window.location.href = `https://ssalpha.atlassian.net/browse/${clip}`;
+          window.location.href = `https://${subdomain}.atlassian.net/browse/${clip}`;
         }
       } else {
         setError("Error", "Clipboard is empty.");
@@ -93,15 +100,14 @@ const Home: NextPage = () => {
         </div>
 
         <p className="inset-y-0 right-0 flex items-center pr-2 text-sm text-gray-400">
-          Project on Github: &nbsp;
+          Made with ❤️ by&nbsp;
           <a
             href="https://github.com/t0m3k/jira-redirect"
             className="font-bold text-[#a88fe9] underline transition-all hover:text-white"
           >
-            jira-redirect
+            t0m3k/jira-redirect
           </a>
         </p>
-
         <Notification
           title={errorTitle}
           message={errorMessage}
