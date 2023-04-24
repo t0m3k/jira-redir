@@ -74,6 +74,16 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
+
+        <p className="inset-y-0 right-0 flex items-center pr-2 text-sm text-gray-400">
+          Project on Github: &nbsp;
+          <a
+            href="https://github.com/t0m3k/jira-redir"
+            className="font-bold text-[#a88fe9] underline"
+          >
+            jira-redir
+          </a>
+        </p>
       </main>
     </>
   );
