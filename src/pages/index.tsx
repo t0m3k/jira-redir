@@ -34,6 +34,13 @@ const Home: NextPage = () => {
           }
         }
       } catch (e) {
+        // check if it's a Jira issue key
+        if (clip.length < 2 || clip.length > 10) {
+          return;
+        }
+        if (!clip.match(/^[A-Z]+-[0-9]+$/)) {
+          return;
+        }
         window.location.href = `https://ssalpha.atlassian.net/browse/${clip}`;
       }
     }
