@@ -6,8 +6,7 @@ import Notification from "@ui/Notification";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const [errorTitle, setErrorTitle] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorText, setErrorText] = useState<[string, string]>(["", ""]);
   const [showError, setShowError] = useState<boolean>(false);
 
   const router = useRouter();
@@ -30,8 +29,7 @@ const Home: NextPage = () => {
   const subdomain = getSubdomain();
 
   const setError = (title: string, message: string) => {
-    setErrorMessage(message);
-    setErrorTitle(title);
+    setErrorText([title, message]);
     setShowError(true);
   };
 
@@ -64,9 +62,14 @@ const Home: NextPage = () => {
             setError("Error", "It doesn't look like a Jira issue URL.");
             return;
           }
-        } catch (e) {
+        } catch (_) {
           // check if it's a Jira issue key
-          if (clip.length < 2 || clip.length > 15 || clip.includes(" ")) {
+          const sanitizedClip = clip.replace(/\s/g, "");
+          if (
+            sanitizedClip.length < 2 ||
+            sanitizedClip.length > 15 ||
+            !/^[A-Z]+-[0-9]+$/.test(sanitizedClip)
+          ) {
             setError("Error", "It doesn't look like a Jira issue key.");
             console.log(`Clipboard: ${clip}`);
             return;
@@ -78,7 +81,9 @@ const Home: NextPage = () => {
         return;
       }
     };
+
     document.addEventListener("paste", listener);
+
     return () => {
       document.removeEventListener("paste", listener);
     };
@@ -126,8 +131,8 @@ const Home: NextPage = () => {
           </a>
         </p>
         <Notification
-          title={errorTitle}
-          message={errorMessage}
+          title={errorText[0]}
+          message={errorText[1]}
           show={showError}
           setShow={setShowError}
         />
