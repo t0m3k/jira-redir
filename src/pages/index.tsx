@@ -66,12 +66,9 @@ const Home: NextPage = () => {
           }
         } catch (e) {
           // check if it's a Jira issue key
-          if (
-            clip.length < 2 ||
-            clip.length > 15 ||
-            !clip.match(/^[A-Z]+-[0-9]+$/)
-          ) {
+          if (clip.length < 2 || clip.length > 15 || clip.includes(" ")) {
             setError("Error", "It doesn't look like a Jira issue key.");
+            console.log(`Clipboard: ${clip}`);
             return;
           }
           window.location.href = `https://${subdomain}.atlassian.net/browse/${clip}`;
