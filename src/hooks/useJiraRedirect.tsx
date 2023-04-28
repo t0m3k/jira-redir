@@ -11,18 +11,13 @@ const useJiraRedirect = (subdomain: string | undefined) => {
 
   useEffect(() => {
     if (!subdomain || subdomain === "") {
-      setError("Error", "Subdomain is not set.");
+      setError("Loading...", "Please wait..");
       return;
     }
 
     setShowError(false);
 
     const listener = (e: ClipboardEvent) => {
-      if (!subdomain || subdomain === "") {
-        setError("Error", "Subdomain is not set.");
-        return;
-      }
-
       const clip = e.clipboardData?.getData("text");
 
       if (clip && clip !== "") {
