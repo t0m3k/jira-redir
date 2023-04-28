@@ -55,10 +55,10 @@ const useJiraRedirect = (subdomain: string | undefined) => {
             !/^[A-Z]+-[0-9]+$/.test(sanitizedClip)
           ) {
             setError("Error", "It doesn't look like a Jira issue key.");
-            console.log(`Clipboard: ${clip}`);
+            console.log(`Clipboard: ${clip}`); // print the clipboard value before sanitization
             return;
           }
-          window.location.href = `https://${subdomain}.atlassian.net/browse/${clip}`;
+          window.location.href = `https://${subdomain}.atlassian.net/browse/${sanitizedClip}`;
         }
       } else {
         setError("Error", "Clipboard is empty.");
