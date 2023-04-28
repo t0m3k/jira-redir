@@ -15,7 +15,6 @@ const useJiraRedirect = (subdomain: string | undefined) => {
       return;
     }
 
-    setErrorText(["", ""]);
     setShowError(false);
 
     const listener = (e: ClipboardEvent) => {
