@@ -18,4 +18,4 @@ For example if your jira links are starting with `company.attlasian.net`, then y
 https://app-istance/subdomain/company
 https://localhost:3000/subdomain/company
 ```
-You can also use demo page for it: https://jira-redirect.vercel.app/subdomain/company
+You can also use demo page for it: https://j.t90.dev/subdomain/company
