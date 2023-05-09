@@ -15,6 +15,29 @@ const useJiraRedirect = (subdomain: string | undefined) => {
       return;
     }
 
+    const sanitizeAndRedirect = (value: string) => {
+      const sanitizedValue = value.replace(/\s/g, "");
+      if (
+        sanitizedValue.length < 2 ||
+        sanitizedValue.length > 15 ||
+        !/^[A-Z]+-[0-9]+$/.test(sanitizedValue)
+      ) {
+        setError("Error", "It doesn't look like a Jira issue key.");
+        return;
+      }
+      const openInNewTab = document.getElementById(
+        "newTab"
+      ) as HTMLInputElement;
+      if (openInNewTab.checked) {
+        window.open(
+          `https://${subdomain}.atlassian.net/browse/${sanitizedValue}`
+        );
+        (document.getElementById("customKey") as HTMLInputElement).value = "";
+      } else {
+        window.location.href = `https://${subdomain}.atlassian.net/browse/${sanitizedValue}`;
+      }
+    };
+
     setShowError(false);
 
     const listener = (e: ClipboardEvent) => {
@@ -31,7 +54,7 @@ const useJiraRedirect = (subdomain: string | undefined) => {
                 ?.split("=")[1] || "";
 
             if (issue !== "") {
-              window.location.href = `https://${subdomain}.atlassian.net/browse/${issue}`;
+              sanitizeAndRedirect(issue);
             } else {
               setError("Error", "Couldn't find issue key in the URL.");
               return;
@@ -42,17 +65,7 @@ const useJiraRedirect = (subdomain: string | undefined) => {
           }
         } catch (_) {
           // check if it's a Jira issue key
-          const sanitizedClip = clip.replace(/\s/g, "");
-          if (
-            sanitizedClip.length < 2 ||
-            sanitizedClip.length > 15 ||
-            !/^[A-Z]+-[0-9]+$/.test(sanitizedClip)
-          ) {
-            setError("Error", "It doesn't look like a Jira issue key.");
-            console.log(`Clipboard: ${clip}`); // print the clipboard value before sanitization
-            return;
-          }
-          window.location.href = `https://${subdomain}.atlassian.net/browse/${sanitizedClip}`;
+          sanitizeAndRedirect(clip);
         }
       } else {
         setError("Error", "Clipboard is empty.");
@@ -62,8 +75,35 @@ const useJiraRedirect = (subdomain: string | undefined) => {
 
     document.addEventListener("paste", listener);
 
+    const typeListener = (e: KeyboardEvent) => {
+      const customKey = document.getElementById(
+        "customKey"
+      ) as HTMLInputElement;
+      if (e.key === "Escape") {
+        customKey.value = "";
+      }
+      if (e.key === "Enter") {
+        sanitizeAndRedirect(customKey.value);
+      }
+
+      if (e.key === "Backspace") {
+        if (customKey.value.length === 0) {
+          customKey.value = "";
+        } else {
+          customKey.value = customKey.value.slice(0, -1);
+        }
+      }
+
+      if (e.key.length === 1) {
+        customKey.value += e.key.toUpperCase();
+      }
+    };
+
+    document.addEventListener("keydown", typeListener);
+
     return () => {
       document.removeEventListener("paste", listener);
+      document.removeEventListener("keydown", typeListener);
     };
   }, [subdomain]);
 
