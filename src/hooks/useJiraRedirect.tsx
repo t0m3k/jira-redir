@@ -84,11 +84,22 @@ const useJiraRedirect = (subdomain: string | undefined) => {
         return;
       }
 
+      if (e.key === " ") {
+        const openInNewTab = document.getElementById(
+          "newTab"
+        ) as HTMLInputElement;
+        openInNewTab.click();
+        return;
+      }
+
       if (e.key === "Escape") {
         customKey.value = "";
+        return;
       }
+
       if (e.key === "Enter") {
         sanitizeAndRedirect(customKey.value);
+        return;
       }
 
       if (e.key === "Backspace") {
@@ -97,24 +108,40 @@ const useJiraRedirect = (subdomain: string | undefined) => {
         } else {
           customKey.value = customKey.value.slice(0, -1);
         }
+        return;
       }
 
-      if (e.key.length === 1 && e.key.match(/[a-z0-9\-]/i)) {
-        if (customKey.value.at(-1) === "-") {
-          if (e.key === "-" || e.key.match(/[a-z]/i)) {
+      if (customKey.value.length > 14) {
+        setError("Error", "Jira issue key can't be longer than 15 characters.");
+        return;
+      }
+
+      const customKeyLastChar = customKey.value.at(-1);
+      const lastCharIsDash = customKeyLastChar === "-";
+      const lastCharIsLetter = customKeyLastChar?.match(/[a-z]/i);
+      const lastCharIsNumber = customKeyLastChar?.match(/[0-9]/i);
+
+      const newCharIsValid = e.key.length === 1 && e.key.match(/[a-z0-9\-]/i);
+      const newCharIsDash = e.key === "-";
+      const newCharIsLetter = e.key.match(/[a-z]/i);
+      const newCharIsNumber = e.key.match(/[0-9]/i);
+
+      if (newCharIsValid) {
+        if (customKey.value.length === 0) {
+          if (!newCharIsLetter) {
             return;
           }
         }
 
-        if (customKey.value.at(-1)?.match(/[a-z]/i)) {
-          if (e.key.match(/[0-9]/i)) {
+        if (lastCharIsDash || lastCharIsNumber) {
+          if (newCharIsDash || newCharIsLetter) {
+            return;
+          }
+        }
+
+        if (lastCharIsLetter) {
+          if (newCharIsNumber && customKey.value.length < 14) {
             customKey.value += "-";
-          }
-        }
-
-        if (customKey.value.at(-1)?.match(/[0-9]/i)) {
-          if (e.key.match(/[a-z]/i)) {
-            return;
           }
         }
 

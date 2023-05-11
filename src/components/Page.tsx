@@ -65,7 +65,7 @@ const Page: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#0c0a11] to-[#5d0fc4]  selection:bg-none hover:cursor-default">
         <div className="container flex flex-col items-center justify-center gap-4 px-4 py-4 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            <span className="text-[hsl(187,74%,60%)]">Jira</span>{" "}
+            <span className="text-teal-400">Jira</span>{" "}
             <span className="text-red-400">Re</span>direct
           </h1>
 
@@ -74,7 +74,7 @@ const Page: NextPage = () => {
               type="text"
               id="customKey"
               disabled={true}
-              className="bg-transparent text-center text-[hsl(187,74%,60%)]"
+              className="bg-transparent text-center text-teal-400"
             ></input>
           </h1>
 
@@ -93,12 +93,14 @@ const Page: NextPage = () => {
 
         <div className="flex flex-col items-center justify-center gap-4 py-4">
           <div className="flex items-center justify-center gap-2">
+            <label className="text-gray-100">Current tab</label>
+
             <Switch
               checked={enabled}
               onChange={changeNewTabStatus}
               className={classNames(
-                enabled ? "bg-red-400" : "bg-gray-200",
-                "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                enabled ? "bg-teal-400" : "bg-red-400",
+                "focus:ring-none relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-indigo-600 focus:ring-offset-2"
               )}
             >
               <span className="sr-only">Open in new tab</span>
@@ -117,11 +119,12 @@ const Page: NextPage = () => {
               name="newTab"
               id="newTab"
               className="hidden"
+              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                changeNewTabStatus(e.currentTarget.checked);
+              }}
             />
 
-            <label htmlFor="newTab" className="text-gray-100">
-              Open in new tab
-            </label>
+            <label className="text-gray-100">New tab</label>
           </div>
         </div>
 
