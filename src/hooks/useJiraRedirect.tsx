@@ -99,7 +99,25 @@ const useJiraRedirect = (subdomain: string | undefined) => {
         }
       }
 
-      if (e.key.length === 1) {
+      if (e.key.length === 1 && e.key.match(/[a-z0-9\-]/i)) {
+        if (customKey.value.at(-1) === "-") {
+          if (e.key === "-" || e.key.match(/[a-z]/i)) {
+            return;
+          }
+        }
+
+        if (customKey.value.at(-1)?.match(/[a-z]/i)) {
+          if (e.key.match(/[0-9]/i)) {
+            customKey.value += "-";
+          }
+        }
+
+        if (customKey.value.at(-1)?.match(/[0-9]/i)) {
+          if (e.key.match(/[a-z]/i)) {
+            return;
+          }
+        }
+
         customKey.value += e.key.toUpperCase();
       }
     };
