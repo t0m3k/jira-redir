@@ -79,6 +79,11 @@ const useJiraRedirect = (subdomain: string | undefined) => {
       const customKey = document.getElementById(
         "customKey"
       ) as HTMLInputElement;
+
+      if (e.ctrlKey || e.metaKey) {
+        return;
+      }
+
       if (e.key === "Escape") {
         customKey.value = "";
       }
