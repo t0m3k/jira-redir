@@ -81,10 +81,19 @@ const Page: NextPage = () => {
           <div className="flex gap-4 sm:grid-cols-2 md:gap-8">
             <div className="relative mt-2 flex items-center text-lg text-gray-100">
               <Keycap>⌘V</Keycap>
-              <p className="inset-y-0 right-0 flex items-center p-2 font-bold ">
-                OR
+              <p className="inset-y-0 right-0 flex items-center pr-4 font-bold ">
+                ,
               </p>
               <Keycap>Ctrl+V</Keycap>
+              <p className="inset-y-0 right-0 flex items-center p-2 font-bold  ">
+                OR
+              </p>
+              <p className="inset-y-0 right-0 flex items-center pr-1 font-bold ">
+                TYPE IT +
+              </p>
+              <Keycap>
+                <span className="">ENTER</span>
+              </Keycap>
             </div>
           </div>
         </div>
