@@ -25,16 +25,27 @@ const useJiraRedirect = (subdomain: string | undefined) => {
         setError("Error", "It doesn't look like a Jira issue key.");
         return;
       }
+
+      let baseDomain = subdomain;
+
+      // make sure base domains start with https://
+      if (!baseDomain.startsWith("https://")) {
+        baseDomain = `https://${baseDomain}`;
+      }
+
+      // make sure base doesn't end with /
+      if (baseDomain.endsWith("/")) {
+        baseDomain = baseDomain.slice(0, -1);
+      }
+
       const openInNewTab = document.getElementById(
         "newTab"
       ) as HTMLInputElement;
       if (openInNewTab.checked) {
-        window.open(
-          `https://${subdomain}.atlassian.net/browse/${sanitizedValue}`
-        );
+        window.open(`${subdomain}/${sanitizedValue}`);
         (document.getElementById("customKey") as HTMLInputElement).value = "";
       } else {
-        window.location.href = `https://${subdomain}.atlassian.net/browse/${sanitizedValue}`;
+        window.location.href = `${subdomain}/${sanitizedValue}`;
       }
     };
 
