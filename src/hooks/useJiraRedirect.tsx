@@ -42,10 +42,10 @@ const useJiraRedirect = (subdomain: string | undefined) => {
         "newTab"
       ) as HTMLInputElement;
       if (openInNewTab.checked) {
-        window.open(`${subdomain}/${sanitizedValue}`);
+        window.open(`${baseDomain}/${sanitizedValue}`);
         (document.getElementById("customKey") as HTMLInputElement).value = "";
       } else {
-        window.location.href = `${subdomain}/${sanitizedValue}`;
+        window.location.href = `${baseDomain}/${sanitizedValue}`;
       }
     };
 
