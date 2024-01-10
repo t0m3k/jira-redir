@@ -6,16 +6,9 @@ Simple app to redirect to Jira issue from a issue key or a link.
 
 ## Environment variable
 You can set environment variable `NEXT_PUBLIC_SUBDOMAIN` to your atlassian subdomain. 
-For example if your jira links are starting with `company.attlasian.net`, then your environment variable should be:
+For example if your jira ticket links are starting with `company.attlasian.net/browse`, then your environment variable should be:
 ```
-NEXT_PUBLIC_SUBDOMAIN=company
+NEXT_PUBLIC_SUBDOMAIN=company.attlasian.net/browse
 ```
 
-## Using subdomain path
-Use `/subdomain/` path.
-For example if your jira links are starting with `company.attlasian.net`, then your path should look like:
-```
-https://app-istance/subdomain/company
-https://localhost:3000/subdomain/company
-```
 You can also use demo page for it: https://j.t90.dev/subdomain/company
