@@ -11,8 +11,20 @@ const useJiraRedirect = (subdomain: string | undefined) => {
 
   useEffect(() => {
     if (!subdomain || subdomain === "") {
-      setError("Loading...", "Please wait..");
+      setError("Loading base domain...", "Please wait..");
       return;
+    }
+
+    let baseDomain = subdomain;
+
+    // make sure base domains start with https://
+    if (!baseDomain.startsWith("https://")) {
+      baseDomain = `https://${baseDomain}`;
+    }
+
+    // make sure base doesn't end with /
+    if (baseDomain.endsWith("/")) {
+      baseDomain = baseDomain.slice(0, -1);
     }
 
     const sanitizeAndRedirect = (value: string) => {
@@ -24,18 +36,6 @@ const useJiraRedirect = (subdomain: string | undefined) => {
       ) {
         setError("Error", "It doesn't look like a Jira issue key.");
         return;
-      }
-
-      let baseDomain = subdomain;
-
-      // make sure base domains start with https://
-      if (!baseDomain.startsWith("https://")) {
-        baseDomain = `https://${baseDomain}`;
-      }
-
-      // make sure base doesn't end with /
-      if (baseDomain.endsWith("/")) {
-        baseDomain = baseDomain.slice(0, -1);
       }
 
       const openInNewTab = document.getElementById(
@@ -57,7 +57,7 @@ const useJiraRedirect = (subdomain: string | undefined) => {
       if (clip && clip !== "") {
         try {
           const url = new URL(clip);
-          if (url.hostname === `${subdomain}.atlassian.net`) {
+          if (url.hostname === `${baseDomain}`) {
             const searchParams = url.search.split("&");
             const issue =
               searchParams

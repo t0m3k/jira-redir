@@ -1,15 +1,20 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import Keycap from "./ui/Keycap";
 import { Switch } from "@headlessui/react";
 import { useEffect, useState } from "react";
+import Preferences from "./Preferences";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Page: NextPage = () => {
+const Page = ({
+  setSubdomain,
+}: {
+  setSubdomain: (subdomain: string) => void;
+}) => {
   const [enabled, setEnabled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const changeNewTabStatus = (newStatus: boolean) => {
     const newTab = document.getElementById("newTab") as HTMLInputElement;
@@ -63,6 +68,11 @@ const Page: NextPage = () => {
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#0c0a11] to-[#5d0fc4]  selection:bg-none hover:cursor-default">
+        <Preferences
+          setSubdomain={setSubdomain}
+          open={open}
+          setOpen={setOpen}
+        />
         <div className="container flex flex-col items-center justify-center gap-4 px-4 py-4 ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             <span className="text-teal-400">Jira</span>{" "}
@@ -137,6 +147,10 @@ const Page: NextPage = () => {
           </div>
         </div>
 
+        <p className="inset-y-0 right-0 flex items-center pr-2 pt-4 text-sm text-white hover:cursor-default">
+          No information about Jira issues is stored or sent anywhere.
+          Preferences are stored in local storage of your browser.
+        </p>
         <p className="inset-y-0 right-0 flex items-center pr-2 pt-4 text-sm text-gray-400 hover:cursor-default">
           Made with&nbsp;
           <span className="text-lg hover:animate-ping">❤️</span>
