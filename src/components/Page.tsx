@@ -147,7 +147,7 @@ const Page = ({
           </div>
         </div>
 
-        <p className="inset-y-0 right-0 flex items-center pr-2 pt-4 text-sm text-white hover:cursor-default">
+        <p className="inset-y-0 right-0 flex items-center px-2 pt-4 text-sm text-white hover:cursor-default">
           No information about Jira issues is stored or sent anywhere.
           Preferences are stored in local storage of your browser.
         </p>

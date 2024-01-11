@@ -35,10 +35,10 @@ export default function Preferences({
   return (
     <>
       <button
-        className="absolute right-5 top-5 text-white"
+        className="absolute right-3 top-3 text-white"
         onClick={() => setOpen(true)}
       >
-        <Cog6ToothIcon width={50} height={50} />
+        <Cog6ToothIcon width={30} height={30} />
       </button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -87,11 +87,11 @@ export default function Preferences({
                         >
                           <div>
                             <h3 className="text-lg font-medium leading-6 text-white">
-                              Custom domain
+                              Custom ticket prefix
                             </h3>
                             <p className="mt-1 text-sm text-gray-300">
                               Enter your custom domain here. This will be used
-                              for the redirect.
+                              for the redirect, before the ticket number.
                             </p>
                           </div>
                           <div className="mt-5 flex">
@@ -100,12 +100,37 @@ export default function Preferences({
                               id="customDomain"
                               name="customDomain"
                               className="block w-full rounded-md border-gray-300 bg-gray-700 p-2 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                              placeholder="subdomain.atlassian.net"
+                              placeholder="https://company.atlassian.net/browse"
                               value={customDomain}
                               onChange={(e) => {
                                 setCustomDomain(e.target.value);
                               }}
                             />
+                          </div>
+                          <div className="space-y-4 p-2 text-sm text-gray-300">
+                            <div>
+                              <p>
+                                For example, if you can see tickets under URL:
+                              </p>
+                              <p>
+                                <span className="font-bold text-white">
+                                  https://company.atlassian.net/browse
+                                </span>
+                                <span className="text-slate-300">
+                                  /ABC-1000
+                                </span>
+                              </p>
+                            </div>
+                            <div>
+                              <p>Enter: </p>
+                              <p className="font-bold text-white">
+                                https://company.atlassian.net/browse
+                              </p>
+                            </div>
+                            <p>
+                              The URL is stored in your browser&apos;s local
+                              storage.
+                            </p>
                           </div>
                           <div className="mt-5 flex">
                             <button

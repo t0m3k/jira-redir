@@ -91,6 +91,12 @@ const useJiraRedirect = (subdomain: string | undefined) => {
         "customKey"
       ) as HTMLInputElement;
 
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sanitizeAndRedirect(customKey.value);
+        return;
+      }
+
       if (e.ctrlKey || e.metaKey) {
         return;
       }
@@ -105,11 +111,6 @@ const useJiraRedirect = (subdomain: string | undefined) => {
 
       if (e.key === "Escape") {
         customKey.value = "";
-        return;
-      }
-
-      if (e.key === "Enter") {
-        sanitizeAndRedirect(customKey.value);
         return;
       }
 
