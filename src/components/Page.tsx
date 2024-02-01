@@ -3,6 +3,7 @@ import Keycap from "./ui/Keycap";
 import { Switch } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import Preferences from "./Preferences";
+import { type SubdomainState } from "~/pages";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -12,14 +13,14 @@ const Page = ({
   setSubdomain,
   subdomain,
 }: {
-  setSubdomain: (subdomain: string) => void;
-  subdomain: string | undefined;
+  setSubdomain: (subdomain: SubdomainState) => void;
+  subdomain: SubdomainState;
 }) => {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(true);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!subdomain) {
+    if (subdomain.status === "not-set") {
       setOpen(true);
     }
   }, [subdomain]);
@@ -88,7 +89,7 @@ const Page = ({
           </h1>
 
           <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
-            {!subdomain ? (
+            {subdomain.status === "not-set" ? (
               <div className="   bg-transparent text-center text-teal-400">
                 Please set the subdomain{" "}
                 <button

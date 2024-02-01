@@ -5,29 +5,54 @@ import useJiraRedirect from "~/hooks/useJiraRedirect";
 import Page from "~/components/Page";
 import { useEffect, useState } from "react";
 
+type LoadingState = {
+  status: "loading";
+};
+
+type NotSetState = {
+  status: "not-set";
+};
+
+type LoadedState = {
+  status: "loaded";
+  subdomain: string;
+};
+
+export type SubdomainState = LoadingState | NotSetState | LoadedState;
+
 const Home: NextPage = () => {
   const router = useRouter();
-  const [subdomain, setSubdomain] = useState<string | undefined>(undefined);
+  const [subdomain, setSubdomain] = useState<SubdomainState>({
+    status: "loading",
+  });
 
   useEffect(() => {
     const searchParams = (key: string) => {
       return router.query[key] ? router.query[key]?.toString() : "";
     };
-    const getSubdomain = () => {
+    const getSubdomain = (): SubdomainState => {
       // check if subdomain is saved in local storage
       if (typeof window !== "undefined") {
         const customDomain = localStorage.getItem("customDomain");
         if (customDomain) {
-          return customDomain;
+          return { status: "loaded", subdomain: customDomain };
         }
       }
 
-      if (searchParams("subdomain") !== "") {
-        return searchParams("subdomain");
-      } else if (process.env.NEXT_PUBLIC_SUBDOMAIN !== "") {
-        return process.env.NEXT_PUBLIC_SUBDOMAIN;
+      const paramsSubdomain = searchParams("subdomain");
+
+      if (paramsSubdomain !== undefined && paramsSubdomain !== "") {
+        return { status: "loaded", subdomain: paramsSubdomain };
+      } else if (
+        process.env.NEXT_PUBLIC_SUBDOMAIN !== undefined &&
+        process.env.NEXT_PUBLIC_SUBDOMAIN !== ""
+      ) {
+        return {
+          status: "loaded",
+          subdomain: process.env.NEXT_PUBLIC_SUBDOMAIN,
+        };
       } else {
-        return undefined;
+        return { status: "not-set" };
       }
     };
 

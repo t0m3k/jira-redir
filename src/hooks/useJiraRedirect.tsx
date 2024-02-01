@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { type SubdomainState } from "~/pages";
 
-const useJiraRedirect = (subdomain: string | undefined) => {
+const useJiraRedirect = (subdomain: SubdomainState) => {
   const [errorText, setErrorText] = useState<[string, string]>(["", ""]);
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -10,12 +11,17 @@ const useJiraRedirect = (subdomain: string | undefined) => {
   };
 
   useEffect(() => {
-    if (!subdomain || subdomain === "") {
+    if (!subdomain || subdomain.status === "loading") {
       setError("Loading base domain...", "Please wait..");
       return;
     }
 
-    let baseDomain = subdomain;
+    if (subdomain.status === "not-set") {
+      setError("Error", "Subdomain not set.");
+      return;
+    }
+
+    let baseDomain = subdomain.subdomain;
 
     // make sure base domains start with https://
     if (!baseDomain.startsWith("https://")) {

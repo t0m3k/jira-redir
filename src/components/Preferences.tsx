@@ -1,6 +1,7 @@
 import { type FormEvent, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { type SubdomainState } from "~/pages";
 
 export default function Preferences({
   open,
@@ -9,7 +10,7 @@ export default function Preferences({
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
-  setSubdomain: (subdomain: string) => void;
+  setSubdomain: (subdomain: SubdomainState) => void;
 }) {
   const [customDomain, setCustomDomain] = useState("");
   // get custom domain from local storage
@@ -25,10 +26,18 @@ export default function Preferences({
   // save to local storage
   const saveCustomDomain = (e: FormEvent) => {
     e.preventDefault();
+
     if (typeof window !== "undefined") {
       localStorage.setItem("customDomain", customDomain);
     }
-    setSubdomain(customDomain);
+
+    if (customDomain === "") {
+      setSubdomain({ status: "not-set" });
+      setOpen(false);
+      return;
+    }
+
+    setSubdomain({ status: "loaded", subdomain: customDomain });
     setOpen(false);
   };
 
