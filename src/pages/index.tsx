@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       } else if (process.env.NEXT_PUBLIC_SUBDOMAIN !== "") {
         return process.env.NEXT_PUBLIC_SUBDOMAIN;
       } else {
-        return;
+        return undefined;
       }
     };
 
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Page setSubdomain={setSubdomain} />
+      <Page setSubdomain={setSubdomain} subdomain={subdomain} />
       <Notification
         title={errorText[0]}
         message={errorText[1]}

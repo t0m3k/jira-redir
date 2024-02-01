@@ -10,11 +10,19 @@ function classNames(...classes: string[]) {
 
 const Page = ({
   setSubdomain,
+  subdomain,
 }: {
   setSubdomain: (subdomain: string) => void;
+  subdomain: string | undefined;
 }) => {
   const [enabled, setEnabled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!subdomain) {
+      setOpen(true);
+    }
+  }, [subdomain]);
 
   const changeNewTabStatus = (newStatus: boolean) => {
     const newTab = document.getElementById("newTab") as HTMLInputElement;
@@ -80,12 +88,24 @@ const Page = ({
           </h1>
 
           <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
-            <input
-              type="text"
-              id="customKey"
-              disabled={true}
-              className="bg-transparent text-center text-teal-400"
-            ></input>
+            {!subdomain ? (
+              <div className="   bg-transparent text-center text-teal-400">
+                Please set the subdomain{" "}
+                <button
+                  onClick={() => setOpen(true)}
+                  className="border-1 rounded-xl border p-2 text-red-200 transition-all hover:bg-red-600 hover:text-white"
+                >
+                  CLICK
+                </button>
+              </div>
+            ) : (
+              <input
+                type="text"
+                id="customKey"
+                disabled={true}
+                className="bg-transparent text-center text-teal-400"
+              ></input>
+            )}
           </h1>
 
           <div className="flex gap-4 sm:grid-cols-2 md:gap-8">
