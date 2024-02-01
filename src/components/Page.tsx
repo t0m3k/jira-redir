@@ -88,16 +88,18 @@ const Page = ({
             <span className="text-red-400">Re</span>direct
           </h1>
 
-          <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
+          <h1 className="h-16 text-2xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
             {subdomain.status === "not-set" ? (
-              <div className="   bg-transparent text-center text-teal-400">
-                Please set the subdomain{" "}
+              <div className="bg-transparent text-center text-teal-400">
+                Please set the subdomain →{" "}
                 <button
+                  type="button"
                   onClick={() => setOpen(true)}
                   className="border-1 rounded-xl border p-2 text-red-200 transition-all hover:bg-red-600 hover:text-white"
                 >
                   CLICK
-                </button>
+                </button>{" "}
+                ←
               </div>
             ) : (
               <input
