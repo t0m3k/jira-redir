@@ -219,7 +219,7 @@ function Input({
     );
   }
   if (open) {
-    return;
+    return <></>;
   }
 
   return (
