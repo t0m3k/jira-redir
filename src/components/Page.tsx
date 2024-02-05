@@ -4,6 +4,7 @@ import { Switch } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import Preferences from "./Preferences";
 import { type SubdomainState } from "~/pages";
+import { handleTypeListener } from "~/hooks/useJiraRedirect";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -13,10 +14,12 @@ const Page = ({
   setSubdomain,
   setProjectId,
   subdomain,
+  projectId,
 }: {
   setSubdomain: (subdomain: SubdomainState) => void;
   setProjectId: (subdomain: string) => void;
   subdomain: SubdomainState;
+  projectId: string;
 }) => {
   const [enabled, setEnabled] = useState(true);
   const [open, setOpen] = useState(false);
@@ -92,26 +95,12 @@ const Page = ({
           </h1>
 
           <h1 className="h-16 text-2xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
-            {subdomain.status === "not-set" ? (
-              <div className="bg-transparent text-center text-teal-400">
-                Please set the subdomain →{" "}
-                <button
-                  type="button"
-                  onClick={() => setOpen(true)}
-                  className="border-1 rounded-xl border p-2 text-red-200 transition-all hover:bg-red-600 hover:text-white"
-                >
-                  CLICK
-                </button>{" "}
-                ←
-              </div>
-            ) : (
-              <input
-                type="text"
-                id="customKey"
-                disabled={true}
-                className="bg-transparent text-center text-teal-400"
-              ></input>
-            )}
+            <Input
+              projectId={projectId}
+              setOpen={setOpen}
+              subdomain={subdomain}
+              open={open}
+            />
           </h1>
 
           <div className="flex gap-4 sm:grid-cols-2 md:gap-8">
@@ -202,3 +191,47 @@ const Page = ({
 };
 
 export default Page;
+
+function Input({
+  subdomain,
+  setOpen,
+  open,
+  projectId,
+}: {
+  subdomain: SubdomainState;
+  setOpen: (open: boolean) => void;
+  open: boolean;
+  projectId: string;
+}) {
+  if (subdomain.status === "not-set") {
+    return (
+      <div className="bg-transparent text-center text-teal-400">
+        Please set the subdomain →{" "}
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="border-1 rounded-xl border p-2 text-red-200 transition-all hover:bg-red-600 hover:text-white"
+        >
+          CLICK
+        </button>{" "}
+        ←
+      </div>
+    );
+  }
+  if (open) {
+    return;
+  }
+
+  return (
+    <input
+      type="text"
+      id="customKey"
+      maxLength={15}
+      className="border-1 rounded-3xl border border-white bg-transparent text-center uppercase text-teal-400 selection:bg-[#f87171] focus:border-transparent focus:outline-none focus:ring-2 focus:ring-teal-400"
+      onKeyDown={(e) => {
+        e.preventDefault();
+        handleTypeListener(e.key, projectId);
+      }}
+    />
+  );
+}

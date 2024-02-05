@@ -34,7 +34,7 @@ const useJiraRedirect = (subdomain: SubdomainState, projectId: string) => {
     }
 
     const sanitizeAndRedirect = (value: string) => {
-      const sanitizedValue = value.replace(/\s/g, "");
+      const sanitizedValue = value.replace(/\s/g, "").toUpperCase();
       if (
         sanitizedValue.length < 2 ||
         sanitizedValue.length > 15 ||
@@ -97,6 +97,10 @@ const useJiraRedirect = (subdomain: SubdomainState, projectId: string) => {
         "customKey"
       ) as HTMLInputElement;
 
+      if (!customKey) {
+        return;
+      }
+
       if (e.key === "Enter") {
         e.preventDefault();
         sanitizeAndRedirect(customKey.value);
@@ -120,53 +124,12 @@ const useJiraRedirect = (subdomain: SubdomainState, projectId: string) => {
         return;
       }
 
-      if (e.key === "Backspace") {
-        if (customKey.value.length === 0) {
-          customKey.value = "";
-        } else {
-          customKey.value = customKey.value.slice(0, -1);
-        }
+      // check if customKey is in focus
+      if (document.activeElement === customKey) {
         return;
       }
 
-      if (customKey.value.length > 14) {
-        setError("Error", "Jira issue key can't be longer than 15 characters.");
-        return;
-      }
-
-      const customKeyLastChar = customKey.value.at(-1);
-      const lastCharIsDash = customKeyLastChar === "-";
-      const lastCharIsLetter = customKeyLastChar?.match(/[a-z]/i);
-      const lastCharIsNumber = customKeyLastChar?.match(/[0-9]/i);
-
-      const newCharIsValid = e.key.length === 1 && e.key.match(/[a-z0-9\-]/i);
-      const newCharIsDash = e.key === "-";
-      const newCharIsLetter = e.key.match(/[a-z]/i);
-      const newCharIsNumber = e.key.match(/[0-9]/i);
-
-      if (newCharIsValid) {
-        if (customKey.value.length === 0) {
-          if (!newCharIsLetter && projectId !== "") {
-            customKey.value = projectId + "-";
-          } else if (!newCharIsLetter) {
-            return;
-          }
-        }
-
-        if (lastCharIsDash || lastCharIsNumber) {
-          if (newCharIsDash || newCharIsLetter) {
-            return;
-          }
-        }
-
-        if (lastCharIsLetter) {
-          if (newCharIsNumber && customKey.value.length < 14) {
-            customKey.value += "-";
-          }
-        }
-
-        customKey.value += e.key.toUpperCase();
-      }
+      handleTypeListener(e.key, projectId);
     };
 
     document.addEventListener("keydown", typeListener);
@@ -181,3 +144,50 @@ const useJiraRedirect = (subdomain: SubdomainState, projectId: string) => {
 };
 
 export default useJiraRedirect;
+
+export function handleTypeListener(key: string, projectId: string) {
+  const customKey = document.getElementById("customKey") as HTMLInputElement;
+
+  if (key === "Backspace") {
+    if (customKey.value.length === 0) {
+      customKey.value = "";
+    } else {
+      customKey.value = customKey.value.slice(0, -1);
+    }
+    return;
+  }
+
+  const customKeyLastChar = customKey.value.at(-1);
+  const lastCharIsDash = customKeyLastChar === "-";
+  const lastCharIsLetter = customKeyLastChar?.match(/[a-z]/i);
+  const lastCharIsNumber = customKeyLastChar?.match(/[0-9]/i);
+
+  const newCharIsValid = key.length === 1 && key.match(/[a-z0-9\-]/i);
+  const newCharIsDash = key === "-";
+  const newCharIsLetter = key.match(/[a-z]/i);
+  const newCharIsNumber = key.match(/[0-9]/i);
+
+  if (newCharIsValid) {
+    if (customKey.value.length === 0) {
+      if (!newCharIsLetter && projectId !== "") {
+        customKey.value = projectId + "-";
+      } else if (!newCharIsLetter) {
+        return;
+      }
+    }
+
+    if (lastCharIsDash || lastCharIsNumber) {
+      if (newCharIsDash || newCharIsLetter) {
+        return;
+      }
+    }
+
+    if (lastCharIsLetter) {
+      if (newCharIsNumber && customKey.value.length < 14) {
+        customKey.value += "-";
+      }
+    }
+
+    customKey.value += key.toUpperCase();
+  }
+}

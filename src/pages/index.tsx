@@ -84,6 +84,7 @@ const Home: NextPage = () => {
         setSubdomain={setSubdomain}
         setProjectId={setProjectId}
         subdomain={subdomain}
+        projectId={projectId}
       />
       <Notification
         title={errorText[0]}
