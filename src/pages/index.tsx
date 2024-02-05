@@ -26,6 +26,8 @@ const Home: NextPage = () => {
     status: "loading",
   });
 
+  const [projectId, setProjectId] = useState<string>("");
+
   useEffect(() => {
     const searchParams = (key: string) => {
       return router.query[key] ? router.query[key]?.toString() : "";
@@ -56,14 +58,33 @@ const Home: NextPage = () => {
       }
     };
 
+    const getProjectId = (): string => {
+      if (typeof window !== "undefined") {
+        const projectId = localStorage.getItem("projectId");
+        if (projectId) {
+          return projectId;
+        }
+      }
+      return "";
+    };
+
+    setProjectId(getProjectId());
+
     setSubdomain(getSubdomain());
   }, [router.query]);
 
-  const { errorText, showError, setShowError } = useJiraRedirect(subdomain);
+  const { errorText, showError, setShowError } = useJiraRedirect(
+    subdomain,
+    projectId
+  );
 
   return (
     <>
-      <Page setSubdomain={setSubdomain} subdomain={subdomain} />
+      <Page
+        setSubdomain={setSubdomain}
+        setProjectId={setProjectId}
+        subdomain={subdomain}
+      />
       <Notification
         title={errorText[0]}
         message={errorText[1]}

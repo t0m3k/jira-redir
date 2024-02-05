@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { type SubdomainState } from "~/pages";
 
-const useJiraRedirect = (subdomain: SubdomainState) => {
+const useJiraRedirect = (subdomain: SubdomainState, projectId: string) => {
   const [errorText, setErrorText] = useState<[string, string]>(["", ""]);
   const [showError, setShowError] = useState<boolean>(false);
 
@@ -146,7 +146,9 @@ const useJiraRedirect = (subdomain: SubdomainState) => {
 
       if (newCharIsValid) {
         if (customKey.value.length === 0) {
-          if (!newCharIsLetter) {
+          if (!newCharIsLetter && projectId !== "") {
+            customKey.value = projectId + "-";
+          } else if (!newCharIsLetter) {
             return;
           }
         }
@@ -173,7 +175,7 @@ const useJiraRedirect = (subdomain: SubdomainState) => {
       document.removeEventListener("paste", listener);
       document.removeEventListener("keydown", typeListener);
     };
-  }, [subdomain]);
+  }, [projectId, subdomain]);
 
   return { errorText, showError, setShowError };
 };

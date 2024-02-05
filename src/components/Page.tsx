@@ -11,9 +11,11 @@ function classNames(...classes: string[]) {
 
 const Page = ({
   setSubdomain,
+  setProjectId,
   subdomain,
 }: {
   setSubdomain: (subdomain: SubdomainState) => void;
+  setProjectId: (subdomain: string) => void;
   subdomain: SubdomainState;
 }) => {
   const [enabled, setEnabled] = useState(true);
@@ -79,6 +81,7 @@ const Page = ({
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#0c0a11] to-[#5d0fc4]  selection:bg-none hover:cursor-default">
         <Preferences
           setSubdomain={setSubdomain}
+          setProjectId={setProjectId}
           open={open}
           setOpen={setOpen}
         />

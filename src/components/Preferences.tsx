@@ -7,18 +7,25 @@ export default function Preferences({
   open,
   setOpen,
   setSubdomain,
+  setProjectId,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  setProjectId: (projectId: string) => void;
   setSubdomain: (subdomain: SubdomainState) => void;
 }) {
   const [customDomain, setCustomDomain] = useState("");
+  const [customProjectId, setCustomProjectId] = useState("");
   // get custom domain from local storage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const customDomain = localStorage.getItem("customDomain");
       if (customDomain) {
         setCustomDomain(customDomain);
+      }
+      const projectId = localStorage.getItem("projectId");
+      if (projectId) {
+        setCustomProjectId(projectId);
       }
     }
   }, []);
@@ -29,7 +36,10 @@ export default function Preferences({
 
     if (typeof window !== "undefined") {
       localStorage.setItem("customDomain", customDomain);
+      localStorage.setItem("projectId", customProjectId);
     }
+
+    setProjectId(customProjectId);
 
     if (customDomain === "") {
       setSubdomain({ status: "not-set" });
@@ -106,52 +116,101 @@ export default function Preferences({
                           onSubmit={saveCustomDomain}
                         >
                           <div>
-                            <h3 className="text-lg font-medium leading-6 text-white">
-                              Custom ticket prefix
-                            </h3>
-                            <p className="mt-1 text-sm text-gray-300">
-                              Enter your custom domain here. This will be used
-                              for the redirect, before the ticket number.
-                            </p>
-                          </div>
-                          <div className="mt-5 flex">
-                            <input
-                              type="text"
-                              id="customDomain"
-                              name="customDomain"
-                              className="block w-full rounded-md border-gray-300 bg-gray-700 p-2 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                              placeholder="https://company.atlassian.net/browse"
-                              value={customDomain}
-                              onChange={(e) => {
-                                setCustomDomain(e.target.value);
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-4 p-2 text-sm text-gray-300">
                             <div>
-                              <p>
-                                For example, if you can see tickets under URL:
+                              <h3 className="text-lg font-medium leading-6 text-white">
+                                Set domain/prefix for Jira tickets
+                              </h3>
+                              <p className="mt-1 text-sm text-gray-300">
+                                Enter your custom domain here. This will be used
+                                for the redirect, before the ticket number.
                               </p>
-                              <p>
-                                <span className="font-bold text-white">
+                            </div>
+                            <div className="mt-5 flex">
+                              <input
+                                type="text"
+                                id="customDomain"
+                                name="customDomain"
+                                className="block w-full rounded-md border-gray-300 bg-gray-700 p-2 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="https://company.atlassian.net/browse"
+                                value={customDomain}
+                                onChange={(e) => {
+                                  setCustomDomain(e.target.value);
+                                }}
+                              />
+                            </div>
+                            <div className="space-y-4 p-2 text-sm text-gray-300">
+                              <div>
+                                <p>
+                                  For example, if you can see tickets under URL:
+                                </p>
+                                <p>
+                                  <span className="font-bold text-white">
+                                    https://company.atlassian.net/browse
+                                  </span>
+                                  <span className="text-slate-300">
+                                    /ABC-1000
+                                  </span>
+                                </p>
+                              </div>
+                              <div>
+                                <p>Enter: </p>
+                                <p className="font-bold text-white">
                                   https://company.atlassian.net/browse
-                                </span>
-                                <span className="text-slate-300">
-                                  /ABC-1000
-                                </span>
+                                </p>
+                              </div>
+                              <p>
+                                The URL is stored in your browser&apos;s local
+                                storage.
                               </p>
                             </div>
-                            <div>
-                              <p>Enter: </p>
-                              <p className="font-bold text-white">
-                                https://company.atlassian.net/browse
-                              </p>
-                            </div>
-                            <p>
-                              The URL is stored in your browser&apos;s local
-                              storage.
-                            </p>
                           </div>
+                          <div>
+                            <div>
+                              <h3 className="pt-20 text-lg font-medium leading-6 text-white">
+                                Default project ID
+                              </h3>
+                              <p className="mt-1 text-sm text-gray-300">
+                                Set your default project ID. If set you can just
+                                type ticket number.
+                              </p>
+                            </div>
+                            <div className="mt-5 flex">
+                              <input
+                                type="text"
+                                id="customProjectId"
+                                name="customProjectId"
+                                className="block w-full rounded-md border-gray-300 bg-gray-700 p-2 text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="SAMPLE"
+                                value={customProjectId}
+                                onChange={(e) => {
+                                  setCustomProjectId(e.target.value);
+                                }}
+                              />
+                            </div>
+                            <div className="space-y-4 p-2 text-sm text-gray-300">
+                              <div>
+                                <p>
+                                  For example, if you often work with tickets:
+                                </p>
+                                <p>
+                                  <span className="font-bold text-white">
+                                    SAMPLE
+                                  </span>
+                                  <span className="text-slate-300">-1000</span>
+                                </p>
+                              </div>
+                              <div>
+                                <p>Enter: </p>
+                                <p className="font-bold text-white">SAMPLE</p>
+                              </div>
+                              <p>You can then type number and press enter.</p>
+                            </div>
+                          </div>
+
+                          <p className="pt-20 text-red-500">
+                            All data is saved ONLY in Local Storage of your
+                            browser.
+                          </p>
                           <div className="mt-5 flex">
                             <button
                               type="submit"
