@@ -10,5 +10,3 @@ For example if your jira ticket links are starting with `company.attlasian.net/b
 ```
 NEXT_PUBLIC_SUBDOMAIN=company.attlasian.net/browse
 ```
-
-You can also use demo page for it: https://j.t90.dev/subdomain/company
