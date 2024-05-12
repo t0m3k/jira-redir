@@ -89,12 +89,12 @@ const Page = ({
           setOpen={setOpen}
         />
         <div className="container flex flex-col items-center justify-center gap-4 px-4 py-4 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+          <h1 className="text-5xl font-extrabold tracking-tight text-white transition-all sm:text-[5rem]">
             <span className="text-teal-400">Jira</span>{" "}
             <span className="text-red-400">Re</span>direct
           </h1>
 
-          <h1 className="h-16 text-2xl font-extrabold tracking-tight text-white sm:text-[2.5rem]">
+          <h1 className="h-16 text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
             <Input
               projectId={projectId}
               setOpen={setOpen}
@@ -205,16 +205,15 @@ function Input({
 }) {
   if (subdomain.status === "not-set") {
     return (
-      <div className="bg-transparent text-center text-teal-400">
-        Please set the subdomain →{" "}
+      <div className="bg-transparent text-center text-teal-400 transition-all">
+        Please set the subdomain{" "}
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="border-1 rounded-xl border p-2 text-red-200 transition-all hover:bg-red-600 hover:text-white"
+          className="rounded-xl  text-red-200    underline hover:text-white"
         >
-          CLICK
-        </button>{" "}
-        ←
+          HERE
+        </button>
       </div>
     );
   }

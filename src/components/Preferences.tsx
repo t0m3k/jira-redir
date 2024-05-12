@@ -109,7 +109,7 @@ export default function Preferences({
                           </div>
                         </div>
                       </div>
-                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                      <div className="relative mt-6 flex-1 px-4 py-10 sm:px-6">
                         {/* Input field for custom domain / prefix of the ticket */}
                         <form
                           className="absolute inset-0 px-4 sm:px-6"
@@ -211,7 +211,7 @@ export default function Preferences({
                             All data is saved ONLY in Local Storage of your
                             browser.
                           </p>
-                          <div className="mt-5 flex">
+                          <div className="mt-5 flex pb-10">
                             <button
                               type="submit"
                               className="inline-flex justify-center rounded-md border border-transparent bg-slate-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
