@@ -54,7 +54,7 @@ export default function Preferences({
   return (
     <>
       <button
-        className="absolute right-3 top-3 text-white"
+        className="absolute right-6 top-6 text-white"
         onClick={() => setOpen(true)}
       >
         <Cog6ToothIcon width={30} height={30} />
@@ -88,7 +88,7 @@ export default function Preferences({
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                     <div className="flex h-full flex-col overflow-y-auto bg-gray-800 py-6 shadow-xl">
-                      <div className="px-4 sm:px-6">
+                      <div className="px-6">
                         <div className="flex items-start justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-white">
                             Config
