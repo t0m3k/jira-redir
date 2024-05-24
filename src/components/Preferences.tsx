@@ -118,11 +118,11 @@ export default function Preferences({
                           <div>
                             <div>
                               <h3 className="text-lg font-medium leading-6 text-white">
-                                Set domain/prefix for Jira tickets
+                                Enter your Jira base URL
                               </h3>
                               <p className="mt-1 text-sm text-gray-300">
-                                Enter your custom domain here. This will be used
-                                for the redirect, before the ticket number.
+                                This will be used for redirects before the
+                                ticket number.
                               </p>
                             </div>
                             <div className="mt-5 flex">
@@ -166,12 +166,15 @@ export default function Preferences({
                           </div>
                           <div>
                             <div>
-                              <h3 className="pt-20 text-lg font-medium leading-6 text-white">
+                              <h3 className="pt-10 text-lg font-medium leading-6 text-white">
                                 Default project ID
                               </h3>
                               <p className="mt-1 text-sm text-gray-300">
-                                Set your default project ID. If set you can just
-                                type ticket number.
+                                Enter your most-used project ID (e.g.,{" "}
+                                <span className="font-mono font-bold text-white">
+                                  SAMPLE
+                                </span>
+                                ).
                               </p>
                             </div>
                             <div className="mt-5 flex">
@@ -206,11 +209,39 @@ export default function Preferences({
                               <p>You can then type number and press enter.</p>
                             </div>
                           </div>
-
-                          <p className="pt-20 text-red-500">
-                            All data is saved ONLY in Local Storage of your
-                            browser.
-                          </p>
+                          <div>
+                            <h3 className="pt-10 text-lg font-medium leading-6 text-white">
+                              Usage
+                            </h3>
+                            <ul className="ml-4 mt-1 list-disc space-y-2 text-sm text-gray-300">
+                              <li className="">
+                                Paste the full ticket number (e.g., ABC-1000) to
+                                open the ticket in a new tab.
+                              </li>
+                              <li className="">
+                                Type the full ticket number (e.g., TEST-1000)
+                                and press Enter.
+                              </li>
+                              <li className="">
+                                Type just the ticket number (e.g., 1000) if
+                                using the default project and press Enter.
+                              </li>
+                            </ul>
+                          </div>
+                          <div>
+                            <h3 className="pt-10 text-lg font-medium leading-6 text-white">
+                              Privacy Note
+                            </h3>
+                            <ul className="ml-4 mt-1 list-disc space-y-2 text-sm text-gray-300">
+                              <li className="">
+                                No data is sent to any server.
+                              </li>
+                              <li className="">
+                                Everything runs locally on your machine and is
+                                stored in your browser’s local storage.
+                              </li>
+                            </ul>
+                          </div>
                           <div className="mt-5 flex pb-10">
                             <button
                               type="submit"
