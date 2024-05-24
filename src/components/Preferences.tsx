@@ -87,7 +87,7 @@ export default function Preferences({
                   leaveTo="translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-scroll bg-gray-800 py-6 shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-auto bg-gray-800 py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <div className="flex items-start justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-white">
